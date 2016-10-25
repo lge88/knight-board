@@ -2,7 +2,7 @@
 
 - Build executable: `make l1`.
 - Run tests: `make t1`
-- Usage:
+
 Input: read input from stdin in following format:
 
 ```
@@ -21,3 +21,26 @@ Where:
 
 Output: If verbose is 0 output nothing. Exit with code 0 if moves
 sequeces are valid, 1 if move sequences are invalid.
+
+## Level 2
+
+- Build executable: `make l2`.
+- Run tests: `make t2`
+
+Input: read input from stdin in following format:
+
+```
+<depth> <width> <startX> <startY> <endX> <endY>
+```
+Where:
+- depth and width is the dimension of the board.
+- startX, startY is the starting position of the knight.
+- endX, endY is the end position of the knight.
+
+Output:
+```
+<x1> <y1>
+<x2> <y2>
+...
+```
+Where: (x1, y1), (x2, y2), ... are move sequence.

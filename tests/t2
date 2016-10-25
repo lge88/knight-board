@@ -1,0 +1,52 @@
+#! /usr/bin/env bash
+cwd=$(cd $(dirname $0); pwd)
+prog="${cwd}/../l2"
+verbose=${VERBOSE:-0}
+
+function run {
+  local depth="$1"
+  local width="$2"
+  local start_x="$3"
+  local start_y="$4"
+  local end_x="$5"
+  local end_y="$6"
+  local verbose="1"
+  echo "${depth} x ${width} ($start_x, $start_y) -> ($end_x, $end_y)"
+
+  echo "$depth $width $start_x $start_y $end_x $end_y $verbose" \
+    | $prog \
+    | awk -v "x=$start_x" -v "y=$start_y" '
+BEGIN {
+  OFS="\t"
+  ok = 1
+  n = 0
+  print n, "--", "--", "("x", "y")"
+}
+{
+  if ($0 ~ "NULL") { ok = 0; exit; }
+  x = x + $1
+  y = y + $2
+  n += 1
+  print n, $1, $2, "("x", "y")"
+}
+END {
+  if (ok == 1) print "DONE"
+  else print "NO SOLUTION"
+  print ""
+}
+'
+}
+
+run 8 8 1 2 1 2
+
+run 8 8 1 2 2 4
+
+run 8 8 1 2 5 4
+
+run 8 8 1 2 7 7
+
+run 8 8 1 2 5 3
+
+run 3 3 0 0 1 1
+
+# run 32 32 7 3 15 28
