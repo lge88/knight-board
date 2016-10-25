@@ -1,0 +1,82 @@
+#! /usr/bin/env bash
+cwd=$(cd $(dirname $0); pwd)
+prog="${cwd}/../l1"
+verbose=${VERBOSE:-0}
+
+function check {
+  local expected_return_code="$1"
+  local actual_return_code
+  $prog
+  actual_return_code="$?"
+  if [[ "$expected_return_code" != "$actual_return_code" ]]; then
+    echo -n "FAILED. Expected: $expected_return_code Actual: $actual_return_code. "
+  else
+    echo -n "PASSED. "
+  fi
+}
+
+# Invalid initial position
+{ echo "8 8 -1 2 $verbose"; echo "2 1"; } | check 1
+echo "Test INVALID initalial position (-1, 2)."
+
+# Invalid chess moves for knight
+{ echo "8 8 1 2 $verbose"; echo "1 0"; } | check 1
+echo "Test INVALID knight move (1, 0) by chess rules."
+
+{ echo "8 8 1 2 $verbose"; echo "2 0"; } | check 1
+echo "Test INVALID knight move (2, 0) by chess rules."
+
+{ echo "8 8 1 2 $verbose"; echo "1 1"; } | check 1
+echo "Test INVALID knight move (1, 1) by chess rules."
+
+# Valid chess move for knight
+{ echo "8 8 1 2 $verbose"; echo "1 2"; } | check 0
+echo "Test VALID knight move (1, 2)"
+
+{ echo "8 8 1 2 $verbose"; echo "2 1"; } | check 0
+echo "Test VALID knight move (2, 1)"
+
+{ echo "8 8 1 2 $verbose"; echo "1 -2"; } | check 0
+echo "Test VALID knight move (1, -2)"
+
+{ echo "8 8 1 2 $verbose"; echo "2 -1"; } | check 0
+echo "Test VALID knight move (2, -1)"
+
+{ echo "8 8 1 2 $verbose"; echo "-1 2"; } | check 0
+echo "Test VALID knight move (-1, 2)"
+
+{ echo "8 8 1 2 $verbose"; echo "-2 1"; } | check 1
+echo "Test INVALID knight move (-2, 1) out of board."
+
+{ echo "8 8 1 2 $verbose"; echo "-2 -1"; } | check 1
+echo "Test INVALID knight move (-2, -1) out of board."
+
+{ echo "8 8 1 2 $verbose"; echo "-1 -2"; } | check 0
+echo "Test VALID knight move (-1, -2)"
+
+# More complicated examples:
+# verbose=1
+{
+   echo "8 8 1 2 $verbose"
+   echo "-1 -2"
+   echo "2 1"
+   echo "1 2"
+   echo "2 1"
+   echo "-1 -2"
+   echo "2 -1"
+} | check 0
+echo "Test VALID knight moves (-1 -2) (2, 1) (1, 2) (2, 1) (-1, -2) (2, -1)"
+
+# More complicated examples:
+# verbose=1
+{
+   echo "8 8 1 2 $verbose"
+   echo "-1 -2"
+   echo "2 1"
+   echo "1 2"
+   echo "2 1"
+   echo "-1 -2"
+   echo "2 -1"
+   echo "2 1"
+} | check 1
+echo "Test INVALID knight moves (-1 -2) (2, 1) (1, 2) (2, 1) (-1, -2) (2, -1) (2, 1)"
