@@ -1,12 +1,12 @@
 #! /usr/bin/env bash
+prog=${PROG:-l1}
 cwd=$(cd $(dirname $0); pwd)
-prog="${cwd}/../l1"
-verbose=${VERBOSE:-0}
+cmd="${cwd}/../${prog}"
 
 function check {
   local expected_return_code="$1"
   local actual_return_code
-  $prog
+  $cmd
   actual_return_code="$?"
   if [[ "$expected_return_code" != "$actual_return_code" ]]; then
     echo -n "FAILED. Expected: $expected_return_code Actual: $actual_return_code. "

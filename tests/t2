@@ -1,7 +1,7 @@
 #! /usr/bin/env bash
+prog=${PROG:-l2}
 cwd=$(cd $(dirname $0); pwd)
-prog="${cwd}/../l2"
-verbose=${VERBOSE:-0}
+cmd="${cwd}/../${prog}"
 
 function run {
   local depth="$1"
@@ -10,11 +10,10 @@ function run {
   local start_y="$4"
   local end_x="$5"
   local end_y="$6"
-  local verbose="1"
   echo "${depth} x ${width} ($start_x, $start_y) -> ($end_x, $end_y)"
 
-  echo "$depth $width $start_x $start_y $end_x $end_y $verbose" \
-    | $prog \
+  echo "$depth $width $start_x $start_y $end_x $end_y" \
+    | $cmd \
     | awk -v "x=$start_x" -v "y=$start_y" '
 BEGIN {
   OFS="\t"

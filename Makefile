@@ -1,15 +1,17 @@
-
-l1: l1.cc
-	g++ -std=c++11 -g l1.cc -o l1
+CC=g++
+CPP_FLAGS+=-std=c++11
+CPP_FLAGS+=-g
+# CPP_FLAGS+=-O3
+EXES=l1 l2 l3 l4 l5
 
 t1: l1
-	tests/t1
-
-l2: l2.cc
-	g++ -std=c++11 -g l2.cc -o l2
+	PROG=l1 tests/t1
 
 t2: l2
-	tests/t2
+	PROG=l2 tests/t2
+
+%: %.cc
+	$(CC) $(CPP_FLAGS) $< -o $@
 
 clean:
-	rm -fr l1 l2 l3 l4 l5 *.dSYM
+	rm -fr $(EXES) *.dSYM
