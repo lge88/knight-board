@@ -103,7 +103,6 @@ bool dfs(const Vec2& u, const Vec2& dest, Board& board, std::vector<Vec2>& moves
       movesSofar.pop_back();
     }
   }
-  board.setVisited(u, false);
   return false;
 }
 
