@@ -13,6 +13,9 @@ t2: l2
 t3: l3
 	PROG=l3 tests/t2_3
 
+t4: l4
+	PROG=l4 tests/t4
+
 %: %.cc
 	$(CC) $(CPP_FLAGS) $< -o $@
 

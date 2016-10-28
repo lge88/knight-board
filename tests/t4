@@ -1,0 +1,180 @@
+#! /usr/bin/env bash
+prog=${PROG:-l4}
+cwd=$(cd $(dirname $0); pwd)
+cmd="${cwd}/../${prog}"
+
+function run {
+  local input="$1"
+  echo "$input:"
+  $input
+  echo "Result for $input:"
+  $input | $cmd
+  echo ""
+}
+
+# 1, 2 test only default cells
+function input_1 {
+  cat <<EOF
+0 0 1 2
+. . .
+. . .
+. . .
+EOF
+}
+
+function input_2 {
+  cat <<EOF
+0 0 2 2
+. . .
+. . .
+. . .
+EOF
+}
+
+# 3 test no solution
+function input_3 {
+  cat <<EOF
+0 0 1 1
+. . .
+. . .
+. . .
+EOF
+}
+
+# 4, 5 test Barrier logic
+function input_4 {
+  cat <<EOF
+0 0 2 1
+. B .
+. . .
+EOF
+}
+
+function input_5 {
+  cat <<EOF
+0 0 2 0
+. B .
+. . .
+. . .
+EOF
+}
+
+# 6, 7 are testing Rock logic
+function input_6 {
+  cat <<EOF
+0 0 2 0
+. . .
+. . .
+. . .
+EOF
+}
+
+function input_7 {
+  cat <<EOF
+0 0 2 0
+. . .
+. . .
+. R .
+EOF
+}
+
+# 8 test Teleport logic. (compare with input_2)
+function input_8 {
+  cat <<EOF
+0 0 2 2
+T T .
+. . .
+. . .
+EOF
+}
+
+# 9 test Water weights
+function input_9 {
+  cat <<EOF
+0 0 2 0
+. . .
+. . .
+. W .
+EOF
+}
+
+# 10 test Lava weights
+function input_10 {
+  cat <<EOF
+0 0 2 0
+. . .
+. . R
+. L .
+EOF
+}
+
+# 11, 12 test algo will detour due to heavy edge weights of Lava cell
+function input_11 {
+  cat <<EOF
+0 0 4 0
+. . . . .
+. . . . .
+. . . . .
+EOF
+}
+
+function input_12 {
+  cat <<EOF
+0 0 4 0
+. . . . .
+. . L . .
+. . . . .
+EOF
+}
+
+function input_13 {
+  cat <<EOF
+5 8 24 0
+. . . . . . . . B . . . L L L . . . . . . . . . . . . . . . . .
+. . . . . . . . B . . . L L L . . . . . . . . . . . . . . . . .
+. . . . . . . . B . . . L L L . . . L L L . . . . . . . . . . .
+. . . . . . . . B . . . L L L . . L L L . . . R R . . . . . . .
+. . . . . . . . B . . . L L L L L L L L . . . R R . . . . . . .
+. . . . . . . . B . . . L L L L L L . . . . . . . . . . . . . .
+. . . . . . . . B . . . . . . . . . . . . R R . . . . . . . . .
+. . . . . . . . B B . . . . . . . . . . . R R . . . . . . . . .
+. . . . . . . . W B B . . . . . . . . . . . . . . . . . . . . .
+. . . R R . . . W W B B B B B B B B B B . . . . . . . . . . . .
+. . . R R . . . W W . . . . . . . . . B . . . . . . . . . . . .
+. . . . . . . . W W . . . . . . . . . B . . . . . . T . . . . .
+. . . W W W W W W W . . . . . . . . . B . . . . . . . . . . . .
+. . . W W W W W W W . . . . . . . . . B . . R R . . . . . . . .
+. . . W W . . . . . . . . . . B B B B B . . R R . W W W W W W W
+. . . W W . . . . . . . . . . B . . . . . . . . . W . . . . . .
+W W W W . . . . . . . . . . . B . . . W W W W W W W . . . . . .
+. . . W W W W W W W . . . . . B . . . . . . . . . . . . B B B B
+. . . W W W W W W W . . . . . B B B . . . . . . . . . . B . . .
+. . . W W W W W W W . . . . . . . B W W W W W W B B B B B . . .
+. . . W W W W W W W . . . . . . . B W W W W W W B . . . . . . .
+. . . . . . . . . . . B B B . . . . . . . . . . B B . . . . . .
+. . . . . R R . . . . B . . . . . . . . . . . . . B . . . . . .
+. . . . . R R . . . . B . . . . . . . . . . . . . B . T . . . .
+. . . . . . . . . . . B . . . . . R R . . . . . . B . . . . . .
+. . . . . . . . . . . B . . . . . R R . . . . . . . . . . . . .
+. . . . . . . . . . . B . . . . . . . . . . R R . . . . . . . .
+. . . . . . . . . . . B . . . . . . . . . . R R . . . . . . . .
+. . . . . . . . . . . B . . . . . . . . . . R R . . . . . . . .
+. . . . . . . . . . . B . . . . . . . . . . R R . . . . . . . .
+. . . . . . . . . . . B . . . . . . . . . . R R . . . . . . . .
+. . . . . . . . . . . B . . . . . . . . . . R R . . . . . . . .
+EOF
+}
+
+run input_1
+run input_2
+run input_3
+run input_4
+run input_5
+run input_6
+run input_7
+run input_8
+run input_9
+run input_10
+run input_11
+run input_12
+run input_13
