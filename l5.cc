@@ -62,17 +62,17 @@ class Board {
   Board(int depth, int width): depth_(depth), width_(width) {
     if (depth_ <= 0) throw std::runtime_error("Board.depth_ must > 0");
     if (width_ <= 0) throw std::runtime_error("Board.width_ must > 0");
-    visited_.resize(depth_ * width_, false);
+    onCurrentPath_.resize(depth_ * width_, false);
   }
 
   // Return whether the vertex is visited or not.
-  inline bool getVisited(const Vec2& pos) const {
-    return visited_[pos.y_ * width_ + pos.x_];
+  inline bool isOnCurrentPath(const Vec2& pos) const {
+    return onCurrentPath_[pos.y_ * width_ + pos.x_];
   }
 
   // Set whether the vertex is visited or not.
-  inline void setVisited(const Vec2& pos, bool visited) {
-    visited_[pos.y_ * width_ + pos.x_] = visited;
+  inline void setOnCurrentPath(const Vec2& pos, bool visited) {
+    onCurrentPath_[pos.y_ * width_ + pos.x_] = visited;
   }
 
   inline bool isInside(const Vec2& pos) const {
@@ -81,7 +81,7 @@ class Board {
 
  private:
   int depth_, width_;
-  std::vector<bool> visited_;
+  std::vector<bool> onCurrentPath_;
 
 }; // class Board
 
@@ -102,23 +102,24 @@ void dfs(const Vec2& u, const Vec2& dest, Board& board,
     result.found_ = true;
     if (movesSofar.size() > result.moves_.size()) {
       result.moves_ = movesSofar;
+      // std::cerr << result.moves_.size() << std::endl;
     }
     return;
   }
 
-  board.setVisited(u, true);
+  board.setOnCurrentPath(u, true);
   // foreach neighbor v of u, if it is not visited, recursive dfs.
   for (auto move: ChessRule::validKnightMoves) {
     Vec2 v = u + move;
     if (!board.isInside(v)) continue;
 
-    if (!board.getVisited(v)) {
+    if (!board.isOnCurrentPath(v)) {
       movesSofar.push_back(move);
       dfs(v, dest, board, movesSofar, result);
       movesSofar.pop_back();
     }
   }
-  board.setVisited(u, false);
+  board.setOnCurrentPath(u, false);
 }
 
 MoveResult findMoves(int depth, int width, const Vec2& start, const Vec2& end) {

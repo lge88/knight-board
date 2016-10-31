@@ -50,10 +50,56 @@ Where: (x1, y1), (x2, y2), ... are move sequence.
 
 ## Level 3
 
-Solved using Bread-First-Search since it requires finding shortest
-path on a equally weighted graph.
+It is a shortest path on undirected unweighted graph problem. Solved
+using Bread-First-Search.
 
 - Build executable: `make l2`.
 - Run tests: `make t2`
 
 Input and output format is identical to the one described in level 2.
+
+## Level 4
+
+It is a shortest path on weighted undirected graph problem. Solved
+using Dijkstra's algorithm.
+
+- Build executable: `make l4`.
+- Run tests: `make t4`
+
+Input format:
+```
+<startX> <startY> <endX> <endY>
+<map>
+```
+
+where:
+- {start,end}{X,Y} is the start and end position of the path.
+- `map` is the same as the format in the problem statement, something like:
+```
+. T T .
+. R W .
+. L B .
+. . . .
+```
+
+Output:
+```
+<distance>
+<x1> <y1>
+<x2> <y2>
+...
+```
+where:
+- distance is the final shortest path of the solution.
+- x1, y1, x2, y2, ... is the move sequences of the shortest path.
+
+## Level 5
+
+It is a longest path in undirected cyclic graph problem. The problem
+is NP-hard, no efficient solution are known.
+
+Here presents a Depth-First-Search algorithm, which enumerate all
+possible search pathes and keep track of the longest one. The input
+and output format are identical to to one described in level 2. On my
+laptop, the problem becomes intractable when board length is larger or
+greater than 6.

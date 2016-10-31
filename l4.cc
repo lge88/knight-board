@@ -371,6 +371,7 @@ bool dijkstra(const Vec2& start, const Vec2& dest, const KnightMap& map,
     // std::cout << "u: " << u << "\n";
     // std::cout << "q.size: " << q.size() << "\n";
     // std::cout << board;
+    // std::cout << "\n";
 
     const int uDist = board.getDist(u);
     if (uDist == -1) break;
@@ -441,7 +442,7 @@ int main(int argc, char* argv[]) {
   // std::cout << "end: " << end << "\n";
   // std::cout << "map:\n" << map;
   // std::cout << "map.getWidth(): " << map.getWidth() << "\n";
-  // std::cout << "map.getDepth(): " << map.getDepth() << "\n";
+  // std::cout << "map.getDepth(): " << map.getDepth() << "\n\n";
 
   MoveResult result = findMoves(map, start, end);
   if (!result.found_) {
